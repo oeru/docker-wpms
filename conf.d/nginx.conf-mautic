@@ -1,0 +1,77 @@
+# some details from https://www.mautic.org/community/index.php/2680-installation-with-nginx/0
+# and see https://gist.github.com/that0n3guy/905c812c0f65e7ffb5ec#file-gistfile1-txt-L44
+#
+server {
+    listen 80;
+    server_name wpms.local;
+
+    root /var/www/html;
+    index index.php index.html index.htm;
+
+    ## Access and error logs.
+    access_log /var/log/nginx/wpms.local_access.log;
+    error_log /var/log/nginx/wpms.local_error.log;
+
+
+    # for let's encrypt renewals!
+    location /.well-known {
+        default_type text/plain;
+        root /var/www/html;
+    }
+
+    # redirect index.php to root
+    rewrite ^/index.php/(.*) /$1  permanent;
+
+    # everything else goes through here!
+    location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to index.html
+        # the path is from perspective of PHP-FPM container
+        try_files $uri /index.php$is_args$args;
+    }
+
+    #
+    # Get static assets... path from perspective of Docker host!!
+    #
+    # allow access to assets like js, css, or images
+    location ~* /(.*)\.(?:js|css|jpg|png|gif|ps)$ {
+        # path to assets from nginx perspective
+        root /home/dave/Projects/docker/docker-wordpress/data/wordpress;
+        allow all;
+    }
+    # end static assets
+
+    # Don't log favicon
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    # Don't log robots
+    location = /robots.txt  {
+        access_log off;
+        log_not_found off;
+    }
+
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        #
+        # replace the IP with the name of your Mautic container if you're using an nginx container.
+        # fastcgi_pass mautic:9000;
+        # if you're running nginx on your Docker host, use this.
+        fastcgi_pass 127.0.0.1:9001;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_keep_conn on;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 256 16k;
+        fastcgi_busy_buffers_size 256k;
+        fastcgi_temp_file_write_size 256k;
+    }
+    add_header 'Access-Control-Allow-Origin' "*";
+}
+

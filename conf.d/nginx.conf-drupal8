@@ -1,0 +1,146 @@
+# You may add here your
+# server {
+#	...
+# }
+# statements for each of your virtual hosts to this file
+server {
+	listen	5.9.142.102:80;
+	#listen   80; ## listen for ipv4; this line is default and implied
+	#listen   [::]:80 default ipv6only=on; ## listen for ipv6
+
+	root /var/www/html;
+	index index.html index.htm;
+
+	server_name tech.oeru.org;
+
+	## Access and error logs.
+	access_log /var/log/nginx/tech.oeru.org_access.log;
+	error_log /var/log/nginx/tech.oeru.org_error.log;
+
+	location /.well-known {
+		root /var/www/html;
+		default_type text/plain;
+	}
+
+	location / {
+    		return 301 https://tech.oeru.org$request_uri;
+	}
+}
+
+server {
+	listen	5.9.142.102:443 ssl;
+	ssl on;
+	#ssl_certificate /etc/letsencrypt/live/resource.oeru.org/fullchain.pem;
+	#ssl_certificate_key /etc/letsencrypt/live/resource.oeru.org/privkey.pem;
+	ssl_certificate /etc/letsencrypt/live/tech.oeru.org/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/tech.oeru.org/privkey.pem;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+	ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+	keepalive_timeout 20s;
+
+	root /home/www/drupal/tech-d8/drupal8;
+	index index.html index.htm;
+
+        server_name tech.oeru.org;
+
+        ## Access and error logs.
+        access_log /var/log/nginx/tech.oeru.org_access.log;
+        error_log /var/log/nginx/tech.oeru.org_error.log;
+
+	## For a local install (not in a Docker container)
+
+       	# Enable compression, this will help if you have for instance advagg<U+200E> module
+  	# by serving Gzip versions of the files.
+  	gzip_static on;
+
+  	location = /favicon.ico {
+    		log_not_found off;
+  	  	access_log off;
+  	}
+
+  	location = /robots.txt {
+    		allow all;
+    		log_not_found off;
+    		access_log off;
+  	}
+
+	# Very rarely should these ever be accessed outside of your lan
+  	location ~* \.(txt|log)$ {
+    		allow 192.168.0.0/16;
+    		deny all;
+  	}
+
+  	location ~ \..*/.*\.php$ {
+    		return 403;
+  	}
+
+  	# No no for private
+  	location ~ ^/sites/.*/private/ {
+    		return 403;
+  	}
+
+  	# Block access to "hidden" files and directories whose names begin with a
+  	# period. This includes directories used by version control systems such
+  	# as Subversion or Git to store control files.
+  	location ~ (^|/)\. {
+		return 403;
+  	}
+
+  	location / {
+   		# This is cool because no php is touched for static content
+    		try_files $uri @rewrite;
+  	}
+
+  	location @rewrite {
+    		# For D7 and above:
+    		# Clean URLs are handled in drupal_environment_initialize().
+    		rewrite ^ /index.php;
+ 	}
+
+  	# Tweaked from https://www.drupal.org/project/ais
+  	location ~* /(?:.+)/files/styles/adaptive/(?:.+)$ {
+    		if ( $http_cookie ~* "ais=(?<ais_cookie>[a-z0-9-_]+)" ) {
+      			rewrite ^/(.+)/files/styles/adaptive/(.+)$ /$1/files/styles/$ais_cookie/$2 last;
+    		}
+    		access_log off;
+    		add_header X-Header "AIS Generator 1.0";
+    		set $nocache_details "Skip";
+    		try_files  $uri @rewrite;
+  	}
+
+ 	location ~ \.php$ {
+    		fastcgi_param SCRIPT_FILENAME $request_filename;
+		fastcgi_intercept_errors on;
+		try_files $uri =404;
+    		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+		# With php5-fpm:
+    		fastcgi_pass php-handler;
+    		fastcgi_index index.php;
+    		#include fastcgi_params;
+    		include fastcgi.conf;
+		    fastcgi_read_timeout 300;
+  	}
+
+  	# Fighting with Styles? This little gem is amazing.
+  	# This is for D7 and D8
+  	location ~ ^/sites/.*/files/styles/ {
+    		try_files $uri @rewrite;
+  	}
+
+        location ^~ /system/files/ {
+                ## For not signaling a 404 in the error log whenever the
+                ## system/files dev is accessed add the line below.
+                ## Note that the 404 is the intended behavior.
+                log_not_found off;
+                access_log off;
+                expires 30d;
+                try_files $uri @rewrite;
+        }
+
+  	location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+    		expires max;
+    		log_not_found off;
+  	}
+}

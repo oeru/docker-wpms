@@ -1,0 +1,6 @@
+
+## moodle - enable to run Moodle
+## cron job for Moodle - dave@oerfoundation.org
+## Run every minute
+#PHP=/usr/local/bin/php
+#*/1 * * * * root $PHP -q -f /var/www/html/moodle/admin/cli/cron.php >> /tmp/moodle-cron.log

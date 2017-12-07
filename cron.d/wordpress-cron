@@ -1,0 +1,5 @@
+# enable if running Wordpress
+# cron job for Wordpress - dave@oerfoundation.org
+# Run every ten minutes
+PHP=/usr/local/bin/php
+*/10 * * * * www-data $PHP -q -f /var/www/html/wp-cron.php >> /tmp/wordpress-cron.log

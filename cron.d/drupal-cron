@@ -1,0 +1,8 @@
+## cron job for Drupal - dave@oerfoundation.org
+## Run every ten minutes
+## !! assumes drush is installed properly on the server !!
+## also need to set DOCROOT for your instance.
+#PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+#/user/bin/env $PATH
+#DOCROOT=/var/www/html/drupal8
+#*/10 * * * * COLUMNS=72 cd $DOCROOT && vendor/bin/drush --uri=[your.drupalsite.org] --quiet cron
