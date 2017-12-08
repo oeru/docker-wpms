@@ -27,8 +27,10 @@ and the edit the file to specify the details of your MySQL or MariaDB database. 
 1. Copy the appropriate nginx-proxy.conf sample into your /etc/nginx/sites-available directory as, say a file named after YOUR_DOMAIN,
 
 1. edit that YOUR_DOMAIN file to substitute in your variable values (for YOUR_DOMAIN, etc.) and add it to your sites-enabled variable (making relevant substitutions)
-```sudo cd /etc/nginx/sites-enabled
-   sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN .```
+```
+sudo cd /etc/nginx/sites-enabled
+sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN .
+```
 
 1. test your nginx instance to make sure it's happy: `nginx -t`
 
