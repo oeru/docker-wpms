@@ -13,17 +13,17 @@ RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install bz2 curl gd imap intl mbstring mcrypt mysqli \
     opcache pdo pdo_mysql pspell soap xmlrpc zip
 # add REDIS support - see https://github.com/phpredis/phpredis
-ENV PHPREDIS_VERSION 3.1.4
-RUN docker-php-source extract \
-  && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-  && tar xfz /tmp/redis.tar.gz \
-  && rm -r /tmp/redis.tar.gz \
-  && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
-  && docker-php-ext-install redis \
-  && docker-php-source delete \
-  && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-  && chmod +x wp-cli.phar \
-  && mv wp-cli.phar /usr/local/bin/wp
+#ENV PHPREDIS_VERSION 3.1.4
+#RUN docker-php-source extract \
+#  && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+#  && tar xfz /tmp/redis.tar.gz \
+#  && rm -r /tmp/redis.tar.gz \
+#  && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+#  && docker-php-ext-install redis \
+#  && docker-php-source delete \
+#  && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+#  && chmod +x wp-cli.phar \
+#  && mv wp-cli.phar /usr/local/bin/wp
 # address app-specific config requirements
 RUN echo "log_errors = on" > /usr/local/etc/php/conf.d/php.ini
 #RUN echo "error_log = /tmp/fpm-php.log" >> /usr/local/etc/php/conf.d/php.ini
@@ -45,12 +45,12 @@ RUN echo 'opcache.save_comments = 1' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.enable_file_override = 0' >> /usr/local/etc/php/conf.d/php.ini
 
 # the PHP-fpm configuration
-#RUN echo 'security.limit_extensions = .php' >> /usr/local/etc/php-fpm.d/www.conf
-#RUN echo 'catch_workers_output = yes' >> /usr/local/etc/php-fpm.d/www.conf
-#RUN echo 'php_flag[display_errors] = off' >> /usr/local/etc/php-fpm.d/www.conf
-#RUN echo 'php_admin_value[error_log] = /usr/local/var/log/fpm-php.www.log' >> /usr/local/etc/php-fpm.d/www.conf
-#RUN echo 'php_admin_flag[log_errors] = on' >> /usr/local/etc/php-fpm.d/www.conf
-#RUN echo 'php_admin_value[memory_limit] = 120M' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'security.limit_extensions = .php' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'catch_workers_output = yes' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'php_flag[display_errors] = off' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'php_admin_value[error_log] = /usr/local/var/log/fpm-php.www.log' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'php_admin_flag[log_errors] = on' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'php_admin_value[memory_limit] = 120M' >> /usr/local/etc/php-fpm.d/www.conf
 
 # copy the relevant cron files into the cron.d folder
 RUN mkdir /tmp/cron.d
