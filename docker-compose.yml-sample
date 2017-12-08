@@ -2,7 +2,7 @@ version: "2"
 
 services:
     wpms:
-        image: oeru/php7.0-fpm-jessie
+        image: oeru/wpms-php7.0-fpm-jessie
         ports:
              - "127.0.0.1:9080:9000"
         volumes:
