@@ -24,13 +24,12 @@ fi
 
 # pick a few variable based on the flavour of site this is going to run, currently
 # choose from: drupal, moodle, silverstripe, or wordpress
-if [ -v FLAVOUR ] ; then
-    echo >&2 "This is a $FLAVOUR implementation!"
-    CRON=${FLAVOUR}-cron
+CRON=wordpress-cron
+if [ -e $CRON ] ; then
     echo >&2 "picking $CRON"
     cp /tmp/cron.d/$CRON /etc/cron.d
 
-    # check if the cron daemon is running. If not, start it.
+# check if the cron daemon is running. If not, start it.
 #    CRON_STATUS=`service cron status | grep -c "not running"`
 #    echo >&2 "CRON_STATUS = $CRON_STATUS"
 #    if [ $CRON_STATUS == 1 ] ; then
@@ -47,10 +46,9 @@ if [ -v FLAVOUR ] ; then
 #    else
 #        echo >&2 "cron already running!"
 #    fi
-
 #    cron && tail -f /tmp/cron.log
 else
-    echo >&2 "not starting cron - pick a valid FLAVOUR to enable this!"
+    echo >& "oops - $CRON isn't where we expect it to be!"
 fi
 
 # set up authenticating SMTP...

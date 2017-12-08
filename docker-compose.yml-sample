@@ -1,20 +1,19 @@
 version: "2"
 
 services:
-    php:
+    wpms:
         image: oeru/php7.0-fpm-jessie
         ports:
              - "127.0.0.1:9080:9000"
         volumes:
             - /home/docker/wpms/wordpress:/var/www/html
-        restart: unless-stopped
         environment:
-            - FLAVOUR=(drupal|moodle|silverstripe|wordpress)
             - SMTP_HOST=
             - SMTP_PORT=
             - SMTP_REPLYTO_EMAIL=
             - SMTP_AUTH_USER=
             - SMTP_AUTH_PASSWORD=
+        restart: unless-stopped
     nginx:
         image: nginx
         links:
@@ -22,6 +21,6 @@ services:
         ports:
             - "127.0.0.1:8080:80"
         volumes:
-            # note, this should be same as used by php
+            # note, this should be same mapping as used by php
             - /home/docker/wpms/wordpress:/var/www/html
         restart: unless-stopped

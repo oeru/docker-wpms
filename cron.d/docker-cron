@@ -1,5 +1,0 @@
-# set up cron tasks
-# generic
-# cron job for Docker - dave@oerfoundation.org
-# Run every minute /etc/cron.d/docker-cron
-*/1 * * * * root DATE=`date`; echo "running cron at $DATE" >> /tmp/cron.log

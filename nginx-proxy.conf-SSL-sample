@@ -1,0 +1,73 @@
+#
+# Set YOUR_DOMAIN, YOUR_WPMS_DIR, and YOUR_PORT below to make this work
+#
+# HTTP does *soft* redirect to HTTPS
+#
+server {
+    # add [IP-Address:]80 in the next line if you want to limit this to a single interface
+    listen 80;
+    server_name YOUR_DOMAIN;
+    root YOUR_WPMS_DIR;
+    index index.php;
+
+    # change the file name of these logs to include your server name
+    # if hosting many services...
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    # for let's encrypt renewals!
+    location /.well-known {
+        # you might need to create this directory via 'sudo mkdir /var/www/letsencrypt'
+        root /var/www/letsencrypt;
+        default_type text/plain;
+    }
+
+    # redirect all HTTP traffic to HTTPS.
+    location / {
+        return  302 https://YOUR_DOMAIN$request_uri;
+    }
+}
+#
+# HTTPS
+#
+# This assumes you're using Let's Encrypt for your SSL certs (and why wouldn't
+# you!?)... https://letsencrypt.org
+server {
+    # add [IP-Address:]443 ssl in the next line if you want to limit this to a single interface
+    listen 443 ssl;
+    ssl on;
+    ssl_certificate /etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    # to create this, see https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
+    ssl_dhparam /etc/ssl/certs/dhparam.pem;
+    keepalive_timeout 20s;
+
+    server_name YOUR_DOMAIN;
+    root YOUR_WPMS_DIR;
+    index index.php;
+
+    # change the file name of these logs to include your server name
+    # if hosting many services...
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    location / {
+        proxy_pass http://localhost:YOUR_PORT;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Conection "upgrade";
+        proxy_set_header Host $http_host;
+    }
+    #
+    # These "harden" your security
+    add_header 'Access-Control-Allow-Origin' "*";
+    # from https://gist.github.com/Stanback/7145487
+    add_header 'Access-Control-Allow-Credentials' 'true' always;
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS' always;
+    add_header 'Access-Control-Allow-Headers' 'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Requested-With' always;
+    # required to be able to read Authorization header in frontend
+    add_header 'Access-Control-Expose-Headers' 'Authorization' always;
+    # tested at https://csp-evaluator.withgoogle.com/
+    # works, but only B+ on MozOBs https://observatory.mozilla.org/analyze.html
+    add_header X-XSS-Protection "1; mode=block";
+}
