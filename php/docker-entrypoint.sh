@@ -22,35 +22,6 @@ else
     echo >&2 "Assuming no database, or that any required databases already exist..."
 fi
 
-# pick a few variable based on the flavour of site this is going to run, currently
-# choose from: drupal, moodle, silverstripe, or wordpress
-CRON=wordpress-cron
-if [ -e $CRON ] ; then
-    echo >&2 "picking $CRON"
-    cp /tmp/cron.d/$CRON /etc/cron.d
-
-# check if the cron daemon is running. If not, start it.
-#    CRON_STATUS=`service cron status | grep -c "not running"`
-#    echo >&2 "CRON_STATUS = $CRON_STATUS"
-#    if [ $CRON_STATUS == 1 ] ; then
-#        echo >&2 "firing up cron daemon"
-#        RES=`service cron start`
-#        echo >&2 "RES = $RES"
-#        CRON_STATUS2=`service cron status | grep -c "not running"`
-#        echo >&2 "CRON_STATUS2 = $CRON_STATUS2"
-#        if [ $CRON_STATUS2 == 0 ]; then
-#            echo >&2 "cron now running..."
-#        else
-#            echo >&2 "cron failed to start!"
-#        fi
-#    else
-#        echo >&2 "cron already running!"
-#    fi
-#    cron && tail -f /tmp/cron.log
-else
-    echo >& "oops - $CRON isn't where we expect it to be!"
-fi
-
 # set up authenticating SMTP...
 if [ -v SMTP_HOST ] ; then
     if ! [ -e /etc/msmtprc ] ; then

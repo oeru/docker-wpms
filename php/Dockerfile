@@ -1,6 +1,8 @@
 FROM php:7.0-fpm-jessie
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
+ENV PHPREDIS_VERSION 3.1.4
+
 # Install PHP extensions
 RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-client-dev \
     libcurl4-gnutls-dev libicu-dev libkrb5-dev libmcrypt-dev libpng-dev \
@@ -12,6 +14,18 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install bz2 curl gd imap intl mbstring mcrypt mysqli \
     opcache pdo pdo_mysql pspell soap xmlrpc zip
+# set up Redis support for php
+RUN docker-php-source extract \
+    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+    && tar xfz /tmp/redis.tar.gz \
+    && rm -r /tmp/redis.tar.gz \
+    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+    && docker-php-ext-install redis \
+    && docker-php-source delete \
+    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
 # address app-specific config requirements
 RUN echo "log_errors = on" > /usr/local/etc/php/conf.d/php.ini
 RUN echo "display_errors = off" >> /usr/local/etc/php/conf.d/php.ini
@@ -21,11 +35,15 @@ RUN echo 'cgi.fix_pathinfo = 0' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'sendmail_path = /usr/bin/msmtp -t' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'post_max_size = 150M' >> /usr/local/etc/php/conf.d/php.ini
+# OpCache work
 RUN echo '[opcache]' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.enable = 1' >> /usr/local/etc/php/conf.d/php.ini
+#RUN echo 'opcache.enable_cli = 1' >> /usr/local/etc/php/conf.d/php.ini
+#RUN echo 'opcache.interned_strings_buffer = 8' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.memory_consumption = 128' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.max_accelerated_files = 8000' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.revalidate_freq = 60' >> /usr/local/etc/php/conf.d/php.ini
+#RUN echo 'opcache.fast_shutdown = 1' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.use_cwd = 1' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.validate_timestamps = 1' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.save_comments = 1' >> /usr/local/etc/php/conf.d/php.ini
