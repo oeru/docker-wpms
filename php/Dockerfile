@@ -35,6 +35,7 @@ RUN echo 'cgi.fix_pathinfo = 0' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'sendmail_path = /usr/bin/msmtp -t' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'upload_max_filesize = 100M' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'post_max_size = 150M' >> /usr/local/etc/php/conf.d/php.ini
+RUN echo 'memory_limit = 250M' >> /usr/local/etc/php/conf.d/php.ini
 # OpCache work
 RUN echo '[opcache]' >> /usr/local/etc/php/conf.d/php.ini
 RUN echo 'opcache.enable = 1' >> /usr/local/etc/php/conf.d/php.ini
@@ -55,7 +56,7 @@ RUN echo 'catch_workers_output = yes' >> /usr/local/etc/php-fpm.d/www.conf
 RUN echo 'php_flag[display_errors] = off' >> /usr/local/etc/php-fpm.d/www.conf
 RUN echo 'php_admin_value[error_log] = /usr/local/var/log/fpm-php.www.log' >> /usr/local/etc/php-fpm.d/www.conf
 RUN echo 'php_admin_flag[log_errors] = on' >> /usr/local/etc/php-fpm.d/www.conf
-RUN echo 'php_admin_value[memory_limit] = 120M' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'php_admin_value[memory_limit] = 250M' >> /usr/local/etc/php-fpm.d/www.conf
 
 VOLUME /var/www/html
 
