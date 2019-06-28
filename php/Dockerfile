@@ -1,7 +1,7 @@
-FROM php:7.0-fpm-jessie
+FROM php:7.2-fpm
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
-ENV PHPREDIS_VERSION 3.1.4
+ENV PHPREDIS_VERSION 4.3.0
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-client-dev \
@@ -12,17 +12,21 @@ RUN apt-get install -y net-tools vim dnsutils
 RUN apt-get install -y cron msmtp
 RUN rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
-RUN docker-php-ext-install bz2 curl gd imap intl mbstring mcrypt mysqli \
+RUN docker-php-ext-install bz2 curl gd imap intl mbstring mysqli \
     opcache pdo pdo_mysql pspell soap xmlrpc zip
 # set up Redis support for php
-RUN docker-php-source extract \
-    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-    && tar xfz /tmp/redis.tar.gz \
-    && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
-    && docker-php-ext-install redis \
-    && docker-php-source delete \
-    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+#RUN docker-php-source extract \
+#    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+#    && tar xfz /tmp/redis.tar.gz \
+#    && rm -r /tmp/redis.tar.gz \
+#    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
+#    && docker-php-ext-install redis \
+#    && docker-php-source delete \
+#    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+#    && chmod +x wp-cli.phar \
+#    && mv wp-cli.phar /usr/local/bin/wp
+RUN pecl install redis && docker-php-ext-enable redis
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
@@ -38,6 +42,8 @@ RUN set -ex \
         echo 'upload_max_filesize = 100M'; \
         echo 'post_max_size = 150M'; \
         echo 'memory_limit = 250M'; \
+        echo 'max_execution_time = 500'; \
+        echo 'request_terminate_timeout = 500'; \
         echo '[opcache]'; \
         echo 'opcache.enable = 1'; \
         echo 'opcache.memory_consumption = 128'; \

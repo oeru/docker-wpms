@@ -1,4 +1,4 @@
-FROM oeru/php7.0-fpm-jessie
+FROM oeru/php72-fpm
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
 # note: cron is already installed.

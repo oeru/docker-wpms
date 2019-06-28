@@ -1,0 +1,29 @@
+#
+# This is a template used by the entrypoint.sh script
+# to create a valid msmtprc configuration with environment
+# variables set in your docker-compose.yml file.
+#
+# For more quirky configurations, this might require some
+# manual tweaking.
+#
+# easy docker container outgoing mail
+defaults
+logfile /tmp/msmtp.log
+
+# this assumes that the SMTP server has TLS... which
+# any modern server should...
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account RemoteHost
+
+# server details
+host SMTP_HOST
+from SMTP_REPLYTO_EMAIL
+port SMTP_PORT
+
+# SMTP authentication details
+auth on
+user SMTP_AUTH_USER
+password SMTP_AUTH_PASSWORD
+account default : RemoteHost
