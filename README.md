@@ -49,7 +49,7 @@ This has been tested on Docker 1.13.1 on Ubuntu Linux 16.04 and requires Docker 
 
 ## Issues
 
-If you have any problems with or questions about this image, please contact us through a [GitHub issue](https://github.com/oeru/docker-wpms/issues). We will endeavour to assist, although we're doing this through enlightened self-interest, so can't provide any guarantees!
+If you have any problems with or questions about this image, please contact us by submitting an issue on this project! We will endeavour to assist, although we're doing this through enlightened self-interest, so can't provide any guarantees!
 
 ## References
 https://github.com/emcniece/docker-wordpress
