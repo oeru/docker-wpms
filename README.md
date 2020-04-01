@@ -5,6 +5,8 @@ Suitable a WordPress Multisite
 
 Includes Nginx configuration, Composer, Outgoing Authenticated SMTP email, and Cron capabilities.
 
+Latest containers (on hub.docker.com): oeru/php72-fpm, oeru/php72-fpm-xdebug, oeru/php72-fpm-cron, oeru/nginx
+
 # License
 
 This Docker Recipe is distributed under the GPL v3 license.

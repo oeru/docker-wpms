@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-clie
     libpspell-dev libssl-dev libxml2-dev mariadb-client sudo telnet unzip zip
 RUN apt-get install -y net-tools vim dnsutils
 # install cron and msmtp for outgoing email
-RUN apt-get install -y cron msmtp
+RUN apt-get install -y cron msmtp msmtp-mta mailutils
 RUN rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-install bz2 curl gd imap intl mbstring mysqli \
