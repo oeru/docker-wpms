@@ -1,10 +1,10 @@
 # OERu WordPress MultiSite Configuration
 
-This is an outline of the WordPress Multisite configuration employed by the OERu for our Course site, https://course.oeru.org.
+This is an outline of the WordPress Multisite configuration employed by the OERu for our [Course site](https://course.oeru.org).
 
 ## Theme
 
-We employ a custom WordPress theme, oeru-course, available at https://git.oeru.org/oeru/oeru_course 
+We employ a custom WordPress theme, [oeru-course](https://git.oeru.org/oeru/oeru_course)
 
 ## Plugins
 
@@ -14,26 +14,25 @@ The plugins employed:
 
 #### Dependencies
 
-* ARVE Advanced Responsive Video Embedder - 
-* Disable Comments
-* Disable Site
-* Nginx Helper
-* Post SMTP
-* WP Activity Log
-* WP-Matomo
+* [ARVE Advanced Responsive Video Embedder](https://wordpress.org/plugins/advanced-responsive-video-embedder/) - to implement responsive layout for videos.
+* [Disable Comments](https://wordpress.org/plugins/disable-comments/)
+* [Disable Site](https://wordpress.org/plugins/disable-site/)
+* [Nginx Helper](https://wordpress.org/plugins/nginx-helper/)
+* [Post SMTP](https://wordpress.org/plugins/post-smtp/)
+* [WP Activity Log](https://wordpress.org/plugins/wp-security-audit-log/)
+* [WP-Matomo](https://wordpress.org/plugins/wp-piwik/)
 
 #### Admin/Convenience/Debug
 
-* Check Email
-* Matomo Analytics - Ethical Stats. Powerful Insights.
-* Unconfirmed
+* [Check Email](https://wordpress.org/plugins/check-email/)
+* [Matomo Analytics](https://wordpress.org/plugins/matomo/)
+* [Unconfirmed](https://wordpress.org/plugins/unconfirmed/)
 
 #### Deprecated
 
 These will be retired
 
 * Google Analytics for WordPress
-
 
 ### OER Foundation authored
 
