@@ -5,7 +5,7 @@
 #
 server {
     # add [IP-Address:]80 in the next line if you want to limit this to a single interface
-    listen 80;
+    listen 0.0.0.0:80;
     server_name YOUR_DOMAIN;
     root YOUR_WPMS_DIR;
     index index.php;
@@ -34,7 +34,7 @@ server {
 # you!?)... https://letsencrypt.org
 server {
     # add [IP-Address:]443 ssl in the next line if you want to limit this to a single interface
-    listen 443 ssl;
+    listen 0.0.0.0:443 ssl;
     ssl on;
     ssl_certificate /etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem;
@@ -53,7 +53,7 @@ server {
     error_log /var/log/nginx/error.log;
 
     location / {
-        proxy_pass http://localhost:YOUR_PORT;
+        proxy_pass http://127.0.0.1:YOUR_PORT;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Conection "upgrade";
         proxy_set_header Host $http_host;

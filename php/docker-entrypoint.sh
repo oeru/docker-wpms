@@ -78,4 +78,11 @@ fi
 #    echo >&2 "vendor dependencies already in place."
 #fi
 
+if ! [ -e /usr/local/bin/wp ] ; then 
+    echo >&2 "installing wp-cli as /usr/local/bin/wp!"
+    curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    chmod +x wp-cli.phar
+    mv wp-cli.phar /usr/local/bin/wp
+fi
+
 exec "$@"

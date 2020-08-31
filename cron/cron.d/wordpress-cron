@@ -1,6 +1,0 @@
-# enable if running Wordpress
-# cron job for Wordpress - dave@oerfoundation.org
-# Run every minute
-* * * * * root echo "running cron at `date`" >> /var/log/cron.log 2>&1
-* * * * * root curl --silent http://nginx/wp-includes/cron.php >> /var/log/cron.log 2>&1
-#
