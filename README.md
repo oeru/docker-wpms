@@ -1,4 +1,4 @@
-Docker PHP 7.0 Image
+Docker PHP 7+ Images
 ====================
 
 Suitable a WordPress Multisite
