@@ -1,7 +1,7 @@
 Docker PHP 7+ Images
 ====================
 
-Suitable a WordPress Multisite
+Suitable for running a production WordPress Multisite. 
 
 Includes Nginx configuration, Composer, Outgoing Authenticated SMTP email, and Cron capabilities.
 
