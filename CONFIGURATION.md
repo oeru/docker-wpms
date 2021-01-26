@@ -38,6 +38,8 @@ These will be retired
 
 #### Dependencies
 
+##### Plugins
+
 * [Blog Feed Finder](https://git.oeru.org/oeru/blog-feed-finder)
 * [Cookie Notice - OERu version](https://git.oeru.org/oeru/oeru-wp-cookienotice)
 * [Mautic Synchronise](https://git.oeru.org/oeru/wpms-mautic)
@@ -46,6 +48,10 @@ These will be retired
 * [WEmath](https://git.oeru.org/oeru/wemath)
 * [WEnotes](https://git.oeru.org/oeru/wenotes)
 * [WEquizzes](https://git.oeru.org/oeru/wequizzes)
+
+##### Theme
+
+We use our own mobile-friendly theme (which supports multiple pre-defined colour palettes): [OERu Course](https://git.oeru.org/oeru/oeru_course)
 
 ## Notes
 
