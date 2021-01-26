@@ -2,10 +2,6 @@
 
 This is an outline of the WordPress Multisite configuration employed by the OERu for our [Course site](https://course.oeru.org).
 
-## Theme
-
-We employ a custom WordPress theme, [oeru-course](https://git.oeru.org/oeru/oeru_course)
-
 ## Plugins
 
 The plugins employed: 
@@ -36,10 +32,6 @@ These will be retired
 
 ### OER Foundation authored
 
-#### Dependencies
-
-##### Plugins
-
 * [Blog Feed Finder](https://git.oeru.org/oeru/blog-feed-finder)
 * [Cookie Notice - OERu version](https://git.oeru.org/oeru/oeru-wp-cookienotice)
 * [Mautic Synchronise](https://git.oeru.org/oeru/wpms-mautic)
@@ -49,9 +41,9 @@ These will be retired
 * [WEnotes](https://git.oeru.org/oeru/wenotes)
 * [WEquizzes](https://git.oeru.org/oeru/wequizzes)
 
-##### Theme
+### OERu Theme
 
-We use our own mobile-friendly theme (which supports multiple pre-defined colour palettes): [OERu Course](https://git.oeru.org/oeru/oeru_course)
+We use our own mobile-friendly (Bootstrap 3-based) theme (which supports multiple pre-defined colour palettes): [OERu Course](https://git.oeru.org/oeru/oeru_course)
 
 To get the login prompt to display (top right of window) you must enable it in the theme settings for each subsite.
 To do so:
