@@ -53,6 +53,14 @@ These will be retired
 
 We use our own mobile-friendly theme (which supports multiple pre-defined colour palettes): [OERu Course](https://git.oeru.org/oeru/oeru_course)
 
+To get the login prompt to display (top right of window) you must enable it in the theme settings for each subsite.
+To do so:
+* log in as an administrator for the subsite you want to change.
+* go to "Customize" the theme, in the top menu bar. 
+* in the left hand "Customizing" sidebar, select "Site Navigation" 
+* and in the resulting overlay, set "Show the login option?" to "Yes". 
+* save the change by clicking the "Publish" button at the top of the sidebar. 
+
 ## Notes
 
 Each course is created via an automated "[Course Snapshot](https://git.oeru.org/wikieducator/course-snapshot)" process from [WikiEducator](https://wikieducator.org) (a MediaWiki instance).
