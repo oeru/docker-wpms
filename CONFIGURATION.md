@@ -41,7 +41,7 @@ These will be retired
 * [WEnotes](https://git.oeru.org/oeru/wenotes)
 * [WEquizzes](https://git.oeru.org/oeru/wequizzes)
 
-### OERu Theme
+## OERu Theme
 
 We use our own mobile-friendly (Bootstrap 3-based) theme (which supports multiple pre-defined colour palettes): [OERu Course](https://git.oeru.org/oeru/oeru_course)
 
