@@ -8,7 +8,8 @@ services:
                 aliases:
                     - redis.[site domain]
     php:
-        image: oeru/php72-fpm-xdebug
+        # note, use oeru/php72-fpm-xdebug if you want to do debugging, e.g. on a dev install
+        image: oeru/php72-fpm 
         links:
             - redis
         ports:
