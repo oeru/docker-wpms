@@ -12,7 +12,7 @@ services:
         links:
             - redis
         ports:
-            - "127.0.0.1:9080:9000"
+            - "127.0.0.1:9000:9000"
         volumes:
             - /home/data/wordpress:/var/www/html
         environment:
