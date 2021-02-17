@@ -42,6 +42,10 @@ sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN .
 
 1. Run `docker-compose up -d && docker-compose logs -f`, wait for it to initialize completely (you'll be shown the debugging information spat out by the containers - hit CTRL-C to get out of the logging - this won't shut down your containers - use `docker-compose stop` to do that), and visit `http://YOUR_DOMAIN` or `http://localhost:8080`.
 
+# Tweaking the docker containers
+
+If you want to tweak the docker containers somehow, you can do that by editing the relevant Dockerfile and possibly the supporting files. Note that you might need to change the name of the image you're using to reflect your own build. The README.md in the Docker directories (cron, php, and nginx) can give you some insights about image names... or the sample docker-compose.yml file - you can always consult the [Docker Hub](https://hub.doocker.com) and check the age of a given image (e.g. [oeru/php72-fpm](https://hub.docker.com/repository/docker/oeru/php72-fpm))  or look at the [oeru organisation](https://hub.docker.com/orgs/oeru) in case we've updated the image name - you'll see we've also got [oeru/php74-fpm](https://hub.docker.com/repository/docker/oeru/php74-fpm) - just make sure all the other needed containers are available - we build a LOT of different Docker images! 
+
 # Supported Docker versions
 
 This has been tested on Docker 1.13.1+ on Ubuntu Linux 16.04-20.04 and requires Docker 1.10.x or better.
