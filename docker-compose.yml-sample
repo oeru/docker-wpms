@@ -1,26 +1,65 @@
 version: "2"
 
 services:
-    wpms:
-        image: oeru/wpms-php7.0-fpm-jessie
-        ports:
-             - "127.0.0.1:9080:9000"
-        volumes:
-            - /home/docker/wpms/wordpress:/var/www/html
-        environment:
-            - SMTP_HOST=
-            - SMTP_PORT=
-            - SMTP_REPLYTO_EMAIL=
-            - SMTP_AUTH_USER=
-            - SMTP_AUTH_PASSWORD=
-        restart: unless-stopped
-    nginx:
-        image: nginx
+    redis:
+        image: redis:4-alpine
+        networks:
+            default:
+                aliases:
+                    - redis.[site domain]
+    php:
+        image: oeru/php72-fpm-xdebug
         links:
-            - php:php
+            - redis
+        ports:
+            - "127.0.0.1:9080:9000"
+        volumes:
+            - /home/data/wordpress:/var/www/html
+        environment:
+            - SMTP_HOST=[a domain name]
+            - SMTP_PORT=[one of 25, 465, or 587]
+            - SMTP_REPLYTO_EMAIL=[an email address]
+            - SMTP_AUTH_USER=[an email address]
+            - SMTP_AUTH_PASSWORD=[password]
+        restart: unless-stopped
+        ports:
+            - "127.0.0.1:9000:9000"
+        networks:
+            default:
+                aliases:
+                    - wpms.[site domain]
+    nginx:
+        image: oeru/nginx-jessie
+        links:
+            - php
+            - redis
         ports:
             - "127.0.0.1:8080:80"
         volumes:
-            # note, this should be same mapping as used by php
-            - /home/docker/wpms/wordpress:/var/www/html
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./nginx/cache:/var/cache/nginx
+            - /home/data/wordpress:/var/www/html
         restart: unless-stopped
+        networks:
+            default:
+                aliases:
+                    - nginx.[site domain]
+    cron:
+        image: oeru/php72-fpm-cron
+        links:
+            - php
+            - nginx
+        volumes:
+            - /home/data/wordpress:/var/www/html
+        environment:
+            - SMTP_HOST=[a domain name]
+            - SMTP_PORT=[one of 25, 465, or 587]
+            - SMTP_REPLYTO_EMAIL=[an email address]
+            - SMTP_AUTH_USER=[an email address]
+            - SMTP_AUTH_PASSWORD=[password]
+        restart: unless-stopped
+        networks:
+            default:
+                aliases:
+                    - cron.[site domain]
+
