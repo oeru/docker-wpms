@@ -1,12 +1,12 @@
-FROM php:7.2-fpm
+FROM php:7.4-fpm
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
-ENV PHPREDIS_VERSION 4.3.0
+ENV PHPREDIS_VERSION 5.3.3
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-client-dev \
-    libcurl4-gnutls-dev libicu-dev libkrb5-dev libmcrypt-dev libpng-dev \
-    libpspell-dev libssl-dev libxml2-dev mariadb-client sudo telnet unzip zip
+    libcurl4-gnutls-dev libicu-dev libkrb5-dev libmcrypt-dev libonig-dev libpng-dev \
+    libpspell-dev libssl-dev libxml2-dev libzip-dev mariadb-client sudo telnet unzip zip
 RUN apt-get install -y net-tools vim dnsutils
 # install cron and msmtp for outgoing email
 RUN apt-get install -y cron msmtp msmtp-mta mailutils

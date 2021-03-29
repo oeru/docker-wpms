@@ -64,19 +64,14 @@ else
     echo >&2 "not configuring MSMTP - set SMTP_HOST and related environment values to enable."
 fi
 
-# run composer to set up dependencies if not already there...
-#if ! [ -e vendor/autoload.php ]; then
-#    echo >&2 "installing dependencies with Composer"
-#    if ! [ -e /usr/local/bin/composer ]; then
-#        echo >&2 "first getting Composer"
-#        # Get Composer
-#        curl -S https://getcomposer.org/installer | php
-#        chmod a+x composer.phar
-#        mv composer.phar /usr/local/bin/composer
-#    fi
-#else
-#    echo >&2 "vendor dependencies already in place."
-#fi
+# install composer
+if ! [ -e /usr/local/bin/composer ]; then
+    echo >&2 "getting Composer"
+    # Get Composer
+    curl -S https://getcomposer.org/installer | php
+    chmod a+x composer.phar
+    mv composer.phar /usr/local/bin/composer
+fi
 
 if ! [ -e /usr/local/bin/wp ] ; then 
     echo >&2 "installing wp-cli as /usr/local/bin/wp!"

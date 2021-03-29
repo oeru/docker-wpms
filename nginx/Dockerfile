@@ -1,11 +1,11 @@
-FROM debian:jessie
+FROM debian
 
 # Forked from:
 # MAINTAINER Real Geeks "kevin@realgeeks.com"
 # MAINTAINER Eric McNiece "hello@emc2innovation.com"
-MAINTAINER Dave Lane <dave@oerfoundation> @lightweight
+MAINTAINER Dave Lane <dave@oerfoundation.org> @lightweight@mastodon.nzoss.nz
 
-ENV NGINX_VERSION=1.13.7
+ENV NGINX_VERSION=1.19.7
 ENV NGX_CACHE_PURGE_VERSION=2.3
 
 # Install basic packages and build tools
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libpcre3 \
     libpcre3-dev \
+    zlib1g-dev\
     && apt-get clean
 
 # Get sources

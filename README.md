@@ -5,7 +5,7 @@ Suitable for running a production WordPress Multisite.
 
 Includes Nginx configuration, Composer, Outgoing Authenticated SMTP email, and Cron capabilities.
 
-Latest containers (on hub.docker.com): oeru/php72-fpm, oeru/php72-fpm-xdebug, oeru/php72-fpm-cron, oeru/nginx
+Latest containers (on hub.docker.com): oeru/php74-fpm, oeru/php74-fpm-cron-wp, oeru/nginx-stretch-wp - replacing (20210225) the previous set of containers (on hub.docker.com): oeru/php72-fpm, oeru/php72-fpm-xdebug, oeru/php72-fpm-cron, oeru/nginx
 
 # License
 
