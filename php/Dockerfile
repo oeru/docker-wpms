@@ -1,8 +1,6 @@
 FROM php:7.4-fpm
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
-ENV PHPREDIS_VERSION 5.3.3
-
 # Install PHP extensions
 RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-client-dev \
     libcurl4-gnutls-dev libicu-dev libkrb5-dev libmcrypt-dev libonig-dev libpng-dev \
@@ -15,26 +13,11 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ 
 RUN docker-php-ext-install bz2 curl gd imap intl mbstring mysqli \
-    opcache pdo pdo_mysql pspell soap zip
-# set up Redis support for php
-#RUN docker-php-source extract \
-#    && curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
-#    && tar xfz /tmp/redis.tar.gz \
-#    && rm -r /tmp/redis.tar.gz \
-#    && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis \
-#    && docker-php-ext-install redis \
-#    && docker-php-source delete \
-#    && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-#    && chmod +x wp-cli.phar \
-#    && mv wp-cli.phar /usr/local/bin/wp
+    opcache pdo pdo_mysql pspell soap xmlrpc zip
 RUN pecl install redis && docker-php-ext-enable redis
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
-
-# https://stackoverflow.com/questions/75366708/install-xml-rpc-in-php8-dockerfile
-RUN pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3  xmlrpc
-RUN docker-php-ext-enable xmlrpc
 
 # address app-specific config requirements
 RUN set -ex \
