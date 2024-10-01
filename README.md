@@ -46,9 +46,33 @@ sudo ln -sf /etc/nginx/sites-available/YOUR_DOMAIN .
 
 If you want to tweak the docker containers somehow, you can do that by editing the relevant Dockerfile and possibly the supporting files. Note that you might need to change the name of the image you're using to reflect your own build. The README.md in the Docker directories (cron, php, and nginx) can give you some insights about image names... or the sample docker-compose.yml file - you can always consult the [Docker Hub](https://hub.doocker.com) and check the age of a given image (e.g. [oeru/php72-fpm](https://hub.docker.com/repository/docker/oeru/php72-fpm))  or look at the [oeru organisation](https://hub.docker.com/orgs/oeru) in case we've updated the image name - you'll see we've also got [oeru/php74-fpm](https://hub.docker.com/repository/docker/oeru/php74-fpm) - just make sure all the other needed containers are available - we build a LOT of different Docker images! 
 
+## Latest containers
+
+### 20241001
+
+'''
+oeru/php83-fpm-wpms
+oeru/nginx-debian-wpms
+'''
+
+To build
+
+'''
+docker build -t oeru/php83-fpm-wpms php
+docker build -t oeru/nginx-debian-wpms nginx
+'''
+
+and upload (after logging into docker.io - or you can push to your own container repo by altering the path)
+
+'''
+docker push oeru/php83-fpm-wpms
+docker push oeru/nginx-debian-wpms
+'''
+
+
 # Supported Docker versions
 
-This has been tested on Docker 1.13.1+ on Ubuntu Linux 16.04-20.04 and requires Docker 1.10.x or better.
+This has been tested on Docker 27.3.1 and (probably) requires Docker 27.3.x or better.
 
 # User Feedback
 

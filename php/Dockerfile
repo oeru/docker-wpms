@@ -1,5 +1,5 @@
-FROM php:7.4-fpm
-MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
+FROM php:8.3-fpm
+#MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
 # Install PHP extensions
 RUN apt-get update && apt-get install -y apt-utils git less libbz2-dev libc-client-dev \
@@ -13,7 +13,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-configure imap --with-imap --with-imap-ssl --with-kerberos
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ 
 RUN docker-php-ext-install bz2 curl gd imap intl mbstring mysqli \
-    opcache pdo pdo_mysql pspell soap xmlrpc zip
+    opcache pdo pdo_mysql pspell soap zip
 RUN pecl install redis && docker-php-ext-enable redis
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \

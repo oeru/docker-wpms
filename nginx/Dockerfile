@@ -6,7 +6,7 @@ FROM debian
 MAINTAINER Dave Lane <dave@oerfoundation.org> @lightweight@mastodon.nzoss.nz
 
 #ENV NGINX_VERSION=1.19.7
-ENV NGINX_VERSION=1.23.4
+ENV NGINX_VERSION=1.26.2
 ENV NGX_CACHE_PURGE_VERSION=2.3
 
 # Install basic packages and build tools
