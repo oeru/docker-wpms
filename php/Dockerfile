@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:7.4-fpm
 #MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
 # Install PHP extensions

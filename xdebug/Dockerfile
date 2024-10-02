@@ -1,4 +1,4 @@
-FROM oeru/php72-fpm
+FROM oeru/php74-fpm
 MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
 RUN pecl install xdebug-2.7.1 && docker-php-ext-enable xdebug
