@@ -1,5 +1,5 @@
 FROM oeru/php74-fpm
-MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
+#MAINTAINER Dave Lane <dave@oerfoundation.org> (@lightweight)
 
 # note: cron is already installed.
 
@@ -18,4 +18,4 @@ RUN set -ex \
 
 RUN touch 0644 /var/log/cron.log
 
-CMD cron && tail -f /var/log/cron.log
+CMD ["cron", "&&", "tail", "-f", "/var/log/cron.log"]

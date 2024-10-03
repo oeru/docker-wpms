@@ -3,7 +3,7 @@ FROM debian
 # Forked from:
 # MAINTAINER Real Geeks "kevin@realgeeks.com"
 # MAINTAINER Eric McNiece "hello@emc2innovation.com"
-MAINTAINER Dave Lane <dave@oerfoundation.org> @lightweight@mastodon.nzoss.nz
+#MAINTAINER Dave Lane <dave@oerfoundation.org> @lightweight@mastodon.nzoss.nz
 
 #ENV NGINX_VERSION=1.19.7
 ENV NGINX_VERSION=1.26.2
